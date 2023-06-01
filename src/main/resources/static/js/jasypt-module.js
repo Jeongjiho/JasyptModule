@@ -1,51 +1,28 @@
 var jasyptModule = {
 
-    init : function() {
+    init : () => {
         jasyptModule.bind();
     },
 
-    bind : function() {
+    bind : () => {
 
-        // 숫자만 입력
-        //common.onlyNumber( $("#printUnit") );
-
-        $("#btnEncrypt").on("click", function() {
+        $("#btnEncrypt").on("click", () => {
             jasyptModule.callEnc();
         });
 
-        $("#btnDecrypt").on("click", function() {
+        $("#btnDecrypt").on("click", () => {
             jasyptModule.callDec();
         });
 
-    },
-
-    validation : function() {
-
-        if( !$("#requestUrl").val() ) {
-            alert("URL을 입력해주세요.");
-            $("#requestUrl").focus();
-            return false;
-        }
-
-        if( !CONSTRACT.REG_EXP.URL.test($("#requestUrl").val().toLowerCase()) ) {
-            alert("URL형식을 입력해주세요.");
-            $("#requestUrl").focus();
-            return false;
-        }
-
-        if( !$("#type").val() ) {
-            alert("타입을 선택해주세요.");
-            $("#type").focus();
-            return false;
-        }
-
-        if( !$("#printUnit").val() ) {
-            alert("출력 묶음 단위를 입력해주세요.");
-            $("#printUnit").focus();
-            return false;
-        }
-
-        return true;
+        $("#btnCopy").on("click", () => {
+            if($("#hiddenResult").val()) {
+                $("#hiddenResult").attr("type", "text");
+                $("#hiddenResult").select();
+                document.execCommand('copy');
+                $("#hiddenResult").attr("type", "hidden");
+                alert('복사하였습니다.');
+            }
+        });
 
     },
 
@@ -56,7 +33,7 @@ var jasyptModule = {
         }
     },
 
-    callEnc : function() {
+    callEnc : () => {
         $.ajax({
             url: "/module/enc",
             method: "POST",
@@ -92,8 +69,9 @@ var jasyptModule = {
         });
     },
 
-    display : function( result ) {
+    display : ( result ) => {
         $("#resultArea").text( result );
+        $("#hiddenResult").val( result );
     },
 
 };
